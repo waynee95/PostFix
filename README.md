@@ -2,8 +2,9 @@
 
 > interpreter for the PostFix language
 
-PostFix is a simple stack langauge inspired by PostScript and Forth from the book
-"Design Concepts in Programming Languages" by Franklyn Turbak and David Gifford.
+PostFix is a simple stack based language inspired by PostScript and Forth from the book
+["Design Concepts in Programming Languages"](https://mitpress.mit.edu/books/design-concepts-programming-languages) 
+by Franklyn Turbak and David Gifford.
 
 ## Examples
 
