@@ -1,0 +1,30 @@
+plugins {
+    id 'java'
+    id 'application'
+}
+
+repositories {
+    jcenter()
+}
+
+dependencies {
+    implementation 'com.google.guava:guava:29.0-jre'
+    testImplementation 'junit:junit:4.13'
+}
+
+application {
+    mainClassName = 'me.waynee95.postfix.Main'
+}
+
+jar {
+    manifest {
+         attributes(
+            'Main-class': 'me.waynee95.postfix.Main' 
+         )
+    }
+}
+
+task runJflex(type: JavaExec) {
+    classpath = files("libs/jflex-full-1.8.2.jar")
+    args 'src/main/java/me/waynee95/postfix/lex/postfix.flex'
+}
