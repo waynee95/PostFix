@@ -1,9 +1,11 @@
 package me.waynee95.postfix;
 
 import java.io.StringReader;
+import java.util.HashMap;
 import java.util.Stack;
 
 import me.waynee95.postfix.command.AddCommand;
+import me.waynee95.postfix.command.Command;
 import me.waynee95.postfix.command.DivCommand;
 import me.waynee95.postfix.command.EqCommand;
 import me.waynee95.postfix.command.GTCommand;
@@ -19,6 +21,24 @@ import me.waynee95.postfix.lex.Lexer;
 import me.waynee95.postfix.lex.Token;
 
 public class Interpreter {
+
+    private HashMap<String, Command> commands;
+
+    public Interpreter() {
+        commands = new HashMap<>();
+        commands.put("add", new AddCommand());
+        commands.put("sub", new SubCommand());
+        commands.put("mul", new MulCommand());
+        commands.put("div", new DivCommand());
+        commands.put("rem", new RemCommand());
+        commands.put("gt", new GTCommand());
+        commands.put("lt", new LTCommand());
+        commands.put("eq", new EqCommand());
+        commands.put("pop", new PopCommand());
+        commands.put("sel", new SelCommand());
+        commands.put("nget", new NGetCommand());
+        commands.put("swap", new SwapCommand());
+    }
 
     public int interpret(String p, String[] params) throws Exception {
         Stack<Integer> stack = new Stack<>();
@@ -59,30 +79,11 @@ public class Interpreter {
         while (token != null) {
             if (token.id == "int") {
                 stack.push(Integer.parseInt(token.value));
-            } else if (token.id == "add") {
-                new AddCommand().run(stack);
-            } else if (token.id == "sub") {
-                new SubCommand().run(stack);
-            } else if (token.id == "mul") {
-                new MulCommand().run(stack);
-            } else if (token.id == "div") {
-                new DivCommand().run(stack);
-            } else if (token.id == "rem") {
-                new RemCommand().run(stack);
-            } else if (token.id == "gt") {
-                new GTCommand().run(stack);
-            } else if (token.id == "eq") {
-                new EqCommand().run(stack);
-            } else if (token.id == "lt") {
-                new LTCommand().run(stack);
-            } else if (token.id == "pop") {
-                new PopCommand().run(stack);
-            } else if (token.id == "sel") {
-                new SelCommand().run(stack);
-            } else if (token.id == "swap") {
-                new SwapCommand().run(stack);
-            } else if (token.id == "nget") {
-                new NGetCommand().run(stack);
+            } else {
+                Command command = commands.get(token.id);
+                if (command != null) {
+                    command.run(stack);
+                }
             }
             token = lexer.nextToken();
         }
